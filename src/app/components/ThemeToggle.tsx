@@ -15,7 +15,7 @@ export default function ThemeToggle() {
       <div className="relative w-full h-full">
         {/* Light mode image (sun) */}
         <Image
-          src="/ChatGPT Image Aug 14, 2025, 01_45_55 AM.png"
+          src="/sun-icon.png"
           alt="Light mode"
           fill
           className={`absolute inset-0 transition-all duration-500 ease-in-out ${
@@ -28,7 +28,7 @@ export default function ThemeToggle() {
         
         {/* Dark mode image (moon) */}
         <Image
-          src="/ChatGPT Image Aug 14, 2025, 01_46_44 AM.png"
+          src="/moon-icon.png"
           alt="Dark mode"
           fill
           className={`absolute inset-0 transition-all duration-500 ease-in-out ${
