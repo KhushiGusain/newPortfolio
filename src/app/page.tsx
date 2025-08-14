@@ -145,7 +145,7 @@ const selfProjects: Project[] = [
   {
     id: "sp1",
     title: "Dynamic Blog Post Generator",
-    summary: "Created a dynamic blog post system that generates new blog pages with unique slugs and rich text formatting for Ezlearn.in/[slug].",
+    summary: "Dynamic blog system with unique slugs and rich text formatting.",
     type: "web",
     color: "var(--accent-peach)",
     imageSrc: "/blog-posts-generator.png",
@@ -159,7 +159,7 @@ const selfProjects: Project[] = [
   {
     id: "sp2",
     title: "TaskHive",
-    summary: "Built a SaaS platform for project and task management with real-time collaboration, Kanban boards, and AI-powered data queries.",
+    summary: "SaaS platform for project management with real-time collaboration and AI queries.",
     type: "app",
     color: "var(--accent-blue)",
     imageSrc: "/taskhive.png",
@@ -174,7 +174,7 @@ const selfProjects: Project[] = [
   {
     id: "sp3",
     title: "Dsaverse",
-    summary: "Developed a platform for students to track their DSA progress with AI-powered personalized roadmaps and real-time performance analysis.",
+    summary: "DSA progress tracking platform with AI-powered roadmaps and performance analysis.",
     type: "web",
     color: "var(--accent-mint)",
     imageSrc: "/dsaverse.png",
@@ -1155,8 +1155,8 @@ function SelfProjectCard({ project }: { project: Project }) {
           style={{ backgroundColor: project.color }}
         />
         
-        {/* Project Image Carousel - fills most of the card with proper margins */}
-        <div className="relative flex-1 mt-12 mx-12 mb-0 z-10">
+        {/* Project Image Carousel - expanded to show more of the image */}
+        <div className="relative flex-1 mt-6 mx-6 mb-0 z-10">
           <div className="w-full h-full rounded-lg overflow-hidden">
             {project.carouselImages && project.carouselImages.length > 1 ? (
               // Carousel with multiple images
@@ -1210,38 +1210,38 @@ function SelfProjectCard({ project }: { project: Project }) {
           </div>
         )}
         
-        {/* Footer overlay with details - similar to Industry Work cards */}
-        <div className={`relative z-10 backdrop-blur border-t px-3 py-2 md:px-4 md:py-3 ${
+        {/* Footer overlay with details - more compact layout */}
+        <div className={`relative z-10 backdrop-blur border-t px-3 py-2 ${
           isDarkMode 
             ? 'bg-black/80 border-white/20 shadow-[0_-2px_0_0_rgba(255,255,255,0.05)]' 
             : 'bg-white/95 border-black/10 shadow-[0_-2px_0_0_rgba(0,0,0,0.08)]'
         }`}>
           <div className="flex flex-wrap items-center gap-2 text-xs text-[var(--muted)]">
-            <span className={`rounded-full px-3 py-1 ${
+            <span className={`rounded-full px-2 py-0.5 ${
               isDarkMode ? 'bg-white/10' : 'bg-black/5'
             }`}>2024</span>
-            <span className={`rounded-full px-3 py-1 capitalize ${
+            <span className={`rounded-full px-2 py-0.5 capitalize ${
               isDarkMode ? 'bg-white/10' : 'bg-black/5'
             }`}>{project.type}</span>
-            <span className={`rounded-full px-3 py-1 ${
+            <span className={`rounded-full px-2 py-0.5 ${
               isDarkMode ? 'bg-white/10' : 'bg-black/5'
             }`}>Personal</span>
           </div>
-          <div className="mt-1 flex items-start justify-between gap-3">
-            <div className="flex-1 min-h-[4rem]">
-              <h3 className="text-lg md:text-xl font-semibold line-clamp-2">{project.title}</h3>
-              <p className="text-[var(--muted)] text-xs md:text-sm line-clamp-3 mt-1">{project.summary}</p>
+          <div className="mt-1 flex items-center justify-between gap-3">
+            <div className="flex-1">
+              <h3 className="text-base md:text-lg font-semibold line-clamp-1">{project.title}</h3>
+              <p className="text-[var(--muted)] text-xs line-clamp-1 mt-0.5">{project.summary}</p>
             </div>
-            <div className="shrink-0 flex flex-col gap-2">
+            <div className="shrink-0 flex gap-1">
               {project.github && (
-                <a className={`btn btn-secondary h-8 px-3 ${
+                <a className={`btn btn-secondary h-7 px-2 text-xs ${
                   isDarkMode ? '!bg-white/10' : '!bg-white'
                 }`} href={project.github} target="_blank" rel="noopener noreferrer">GitHub</a>
               )}
               {project.website && (
-                <a className={`btn btn-secondary h-8 px-3 ${
+                <a className={`btn btn-secondary h-7 px-2 text-xs ${
                   isDarkMode ? '!bg-white/10' : '!bg-white'
-                }`} href={project.website} target="_blank" rel="noopener noreferrer">Live Demo</a>
+                }`} href={project.website} target="_blank" rel="noopener noreferrer">Demo</a>
               )}
             </div>
           </div>
