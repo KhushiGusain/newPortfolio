@@ -2,25 +2,239 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #111111;
+  --muted: #6f6f6f;
+  --accent: #a3e635;
+  --accent-blue: #bae6fd;
+  --accent-yellow: #fef3c7;
+  --accent-coral: #fecaca;
+  --accent-lavender: #e9d5ff;
+  --accent-peach: #ffedd5;
+  --accent-pink: #fce7f3;
+  --accent-aqua: #ccfbf1;
+  --accent-mint: #d9f99d;
+}
+
+/* Dark theme variables */
+.dark {
+  --background: #0a0a0a;
+  --foreground: #ffffff;
+  --muted: #a3a3a3;
+  --accent: #84cc16;
+  --accent-blue: #0ea5e9;
+  --accent-yellow: #eab308;
+  --accent-coral: #f87171;
+  --accent-lavender: #a855f7;
+  --accent-peach: #fb923c;
+  --accent-pink: #ec4899;
+  --accent-aqua: #14b8a6;
+  --accent-mint: #65a30d;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --font-sans: var(--font-body);
+  --font-display: var(--font-display);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+/* Base */
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-body), ui-sans-serif, system-ui, -apple-system,
+    Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji",
+    "Segoe UI Emoji";
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  body {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  
+  /* Improve touch targets */
+  button, 
+  a,
+  [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Prevent zoom on input focus */
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+  }
+}
+
+/* Subtle dotted background pattern */
+.bg-dots {
+  background-image: radial-gradient(
+    rgba(13, 148, 73, 0.2) 1px,
+    transparent 1px
+  );
+  background-size: 16px 16px;
+}
+
+.dark .bg-dots {
+  background-image: radial-gradient(
+    rgba(34, 197, 94, 0.15) 1px,
+    transparent 1px
+  );
+}
+
+/* Soft corner gradients */
+.corner-fade {
+  position: relative;
+}
+.corner-fade::before,
+.corner-fade::after {
+  content: "";
+  position: absolute;
+  inset: -10% -10% auto auto;
+  pointer-events: none;
+  background: radial-gradient(40% 40% at 100% 0%, rgba(204, 255, 0, 0.12), transparent 60%);
+  filter: blur(10px);
+}
+.corner-fade::after {
+  inset: auto auto -10% -10%;
+  background: radial-gradient(40% 40% at 0% 100%, rgba(58, 134, 255, 0.10), transparent 60%);
+}
+
+.dark .corner-fade::before {
+  background: radial-gradient(40% 40% at 100% 0%, rgba(34, 197, 94, 0.15), transparent 60%);
+}
+
+.dark .corner-fade::after {
+  background: radial-gradient(40% 40% at 0% 100%, rgba(59, 130, 246, 0.12), transparent 60%);
+}
+
+/* Buttons */
+.btn {
+  @apply inline-flex items-center justify-center rounded-full border px-5 py-3 text-sm font-medium transition;
+  min-height: 44px; /* Ensure touch target size */
+  -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
+}
+.btn-primary {
+  @apply bg-[var(--accent)] border-black/80 shadow-[0_2px_0_0_#000] hover:translate-y-[1px];
+}
+.dark .btn-primary {
+  @apply border-white/20 shadow-[0_2px_0_0_rgba(255,255,255,0.3)];
+}
+.btn-secondary {
+  @apply bg-white hover:bg-black/5 border-black/10;
+}
+.dark .btn-secondary {
+  @apply bg-white/10 hover:bg-white/20 border-white/20 text-white;
+}
+
+/* Mobile button adjustments */
+@media (max-width: 768px) {
+  .btn {
+    @apply px-4 py-2.5 text-sm;
+    min-height: 44px;
+  }
+}
+
+/* Card tilt frame */
+.tilt-frame {
+  @apply relative rounded-[20px] border-4 border-pink-300 bg-white shadow-[0_4px_0_0_rgba(0,0,0,0.16)] rotate-3;
+}
+.dark .tilt-frame {
+  @apply bg-[var(--foreground)] border-pink-400 shadow-[0_4px_0_0_rgba(255,255,255,0.16)];
+}
+.tilt-frame::after {
+  content: "";
+  position: absolute;
+  inset: 10px;
+  border-radius: 14px;
+  border: 2px solid #00000020;
+  pointer-events: none;
+}
+.dark .tilt-frame::after {
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Marquee animation for tech stack */
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.animate-marquee {
+  animation: marquee 5s linear infinite;
+}
+
+/* Slower marquee on mobile */
+@media (max-width: 768px) {
+  .animate-marquee {
+    animation: marquee 8s linear infinite;
+  }
+}
+
+/* Subtle floating animation */
+@keyframes floatY {
+  0% { transform: translateY(0) }
+  50% { transform: translateY(-6px) }
+  100% { transform: translateY(0) }
+}
+.animate-float-slow {
+  animation: floatY 7s ease-in-out infinite;
+}
+
+/* Section-specific aurora layers */
+.aurora-hero,
+.aurora-projects,
+.aurora-connect,
+.aurora-late {
+  position: absolute;
+  inset: -20% -10% -10% -10%;
+  filter: blur(42px);
+  opacity: 0.6;
+  pointer-events: none;
+  z-index: -1;
+}
+.aurora-hero {
+  background:
+    radial-gradient(40% 35% at 20% 25%, rgba(16,185,129,0.18), transparent 60%);
+}
+.aurora-projects {
+  background:
+    radial-gradient(45% 40% at 92% 40%, rgba(59,130,246,0.22), transparent 60%);
+}
+.aurora-connect {
+  background:
+    radial-gradient(40% 40% at 70% 110%, rgba(244,63,94,0.18), transparent 65%);
+}
+.aurora-late {
+  background:
+    radial-gradient(40% 40% at 70% 110%, rgba(244,63,94,0.18), transparent 65%);
+}
+
+/* Dark mode aurora adjustments */
+.dark .aurora-hero {
+  background:
+    radial-gradient(40% 35% at 20% 25%, rgba(34,197,94,0.25), transparent 60%);
+}
+
+.dark .aurora-projects {
+  background:
+    radial-gradient(45% 40% at 92% 40%, rgba(59,130,246,0.3), transparent 60%);
+}
+
+.dark .aurora-connect {
+  background:
+    radial-gradient(40% 40% at 70% 110%, rgba(244,63,94,0.25), transparent 65%);
+}
+
+.dark .aurora-late {
+  background:
+    radial-gradient(40% 40% at 70% 110%, rgba(244,63,94,0.25), transparent 65%);
 }
