@@ -189,15 +189,7 @@ const selfProjects: Project[] = [
   },
 ];
 
-const tech = [
-  { name: "Figma" },
-  { name: "Illustrator" },
-  { name: "Photoshop" },
-  { name: "After Effects" },
-  { name: "React" },
-  { name: "Next.js" },
-  { name: "Tailwind" },
-];
+// Removed unused tech array
 
 const techStacks = [
   { name: "React", icon: "https://raw.githubusercontent.com/onemarc/tech-icons/main/icons/react-light.svg" },
@@ -410,7 +402,7 @@ export default function Home() {
             </h1>
             <p className="text-lg md:text-xl font-semibold">Student | Full Stack Developer | Innovator</p>
             <p className="text-lg text-[var(--muted)] max-w-prose">
-              Currently pursuing my education at Bennett University, I'm a passionate full stack developer who believes that a great website is not just built — it's crafted with creativity, innovation, and a deep understanding of user experience.
+              Currently pursuing my education at Bennett University, I&apos;m a passionate full stack developer who believes that a great website is not just built — it&apos;s crafted with creativity, innovation, and a deep understanding of user experience.
             </p>
             <div className="flex items-center gap-4">
               <a className="btn btn-primary" href="#connect">Contact Me</a>
@@ -779,8 +771,8 @@ export default function Home() {
       {/* Connect */}
       <section id="connect" className="mx-auto max-w-6xl px-6 pb-24 relative">
         <div className="aurora-connect" />
-        <h2 className="font-display text-3xl font-bold">Let's Connect</h2>
-        <p className="mt-2 text-[var(--muted)] text-lg">Have an opportunity or want to collaborate? I'd love to hear from you.</p>
+        <h2 className="font-display text-3xl font-bold">Let&apos;s Connect</h2>
+        <p className="mt-2 text-[var(--muted)] text-lg">Have an opportunity or want to collaborate? I&apos;d love to hear from you.</p>
         
         {/* Contact Cards Grid */}
         <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -919,8 +911,6 @@ function SkillRow({ label, percent }: { label: string; percent: number }) {
 
 function ProjectsSection() {
   const [hovered, setHovered] = useState<string | null>(null);
-  const { theme } = useTheme();
-  const isDarkMode = theme === 'dark';
   
   return (
     <section id="portfolio" className="mx-auto max-w-6xl px-6 py-16">
@@ -928,7 +918,7 @@ function ProjectsSection() {
         Featured Projects
       </div>
       <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 auto-rows-[1fr] gap-6 group">
-        {projects.map((p, idx) => (
+        {projects.map((p) => (
           <ProjectCard
             key={p.id}
             project={p}
@@ -957,8 +947,6 @@ function ProjectCard({
   isWide: boolean;
 }) {
   const { ref, onEnter: play, onLeave: stop } = useHoverVideo();
-  const { theme } = useTheme();
-  const isDarkMode = theme === 'dark';
   const rotate = project.id.charCodeAt(0) % 2 === 0 ? "rotate-2" : "-rotate-2";
   return (
     <div
