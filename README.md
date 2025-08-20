@@ -1,3 +1,45 @@
+# 🌐 Personal Portfolio – Khushi Gusain  
+
+A modern and interactive **portfolio website** showcasing my projects, experience, skills, and journey as a **Full Stack Developer**.  
+The site features **dark/light mode**, a playful **“evil button”** easter egg, and smooth animations for an engaging user experience.  
+
+🔗 **[Live Website](https://khushigusain.dev/)**  
+
+---
+
+## ✨ Features  
+
+- 🌓 **Dark & Light Mode** – Toggle between sleek dark mode and minimal light mode.  
+- 😈 **Evil Button** – A fun easter egg that instantly switches to dark mode.  
+- 📂 **Projects Showcase** – Highlights personal & industry projects with GitHub and demo links.  
+- 🕒 **Timeline** – Professional and academic journey presented with a modern interactive timeline.  
+- 💻 **Technical Knowledge** – Visual representation of key frontend, backend, database, and cloud skills.  
+- 📱 **Responsive Design** – Optimized for desktop, tablet, and mobile.  
+
+---
+
+## 🛠 Tech Stack  
+
+- **Framework:** Next.js  
+- **Language:** JavaScript (ES6+)  
+- **Styling:** Tailwind CSS  
+- **Deployment:** Vercel  
+
+---
+
+## 📸 Screenshots  
+
+> _(Add images inside a `/screenshots` folder and link them here)_  
+
+- **Home Page** (Intro with profile and role)  
+- **Projects Section** (Dynamic Blog Post Generator, TaskHive, Smart Roadmap Generator, etc.)  
+- **Timeline** (Education & achievements at Bennett University)  
+- **Skills & Tech Stack** (Frontend, Backend, Databases, Cloud & DevOps)  
+- **Light & Dark Mode Views**  
+
+---
+
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
