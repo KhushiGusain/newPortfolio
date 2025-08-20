@@ -1,7 +1,7 @@
 # 🌐 Personal Portfolio – Khushi Gusain  
 
 A modern and interactive **portfolio website** showcasing my projects, experience, skills, and journey as a **Full Stack Developer**.  
-The site features **dark/light mode**, a playful **“evil button”** easter egg, and smooth animations for an engaging user experience.  
+The site features **dark/light mode**, a playful **“DO NOT CLICK ME BUTTON”**, and smooth animations for an engaging user experience.  
 
 🔗 **[Live Website](https://khushigusain.dev/)**  
 
