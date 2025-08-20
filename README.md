@@ -27,17 +27,6 @@ The site features **dark/light mode**, a playful **“DO NOT CLICK ME BUTTON”*
 
 ---
 
-## 📸 Screenshots  
-
-> _(Add images inside a `/screenshots` folder and link them here)_  
-
-- **Home Page** (Intro with profile and role)  
-- **Projects Section** (Dynamic Blog Post Generator, TaskHive, Smart Roadmap Generator, etc.)  
-- **Timeline** (Education & achievements at Bennett University)  
-- **Skills & Tech Stack** (Frontend, Backend, Databases, Cloud & DevOps)  
-- **Light & Dark Mode Views**  
-
----
 
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
