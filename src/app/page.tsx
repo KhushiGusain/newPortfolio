@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import ThemeToggle from "./components/ThemeToggle";
 import { useTheme } from "./contexts/ThemeContext";
+import { nameFont, taglineFont } from "./fonts";
 
 type TimelineItem = {
   id: string;
@@ -366,11 +367,11 @@ export default function Home() {
       {/* Header */}
       <header className="mx-auto max-w-6xl px-6 py-6 flex items-center justify-between">
         <div className="inline-flex items-center gap-2">
-          <span className={`rounded-full bg-[var(--accent-pink)]/30 border px-3 py-1 text-sm font-semibold ${
+          <span className={`rounded-full bg-[var(--accent-pink)]/30 border px-3 py-1 text-md font-semibold ${
             isDarkMode 
               ? 'border-white/20 shadow-[0_2px_0_0_rgba(255,255,255,0.2)]' 
               : 'border-black/20 shadow-[0_2px_0_0_rgba(0,0,0,0.2)]'
-          }`}>Khushi Gusain</span>
+          }`}>K.</span>
         </div>
         <nav className="hidden md:flex items-center gap-6 text-sm">
           <a className="hover:underline" href="#projects">Projects</a>
@@ -393,65 +394,40 @@ export default function Home() {
         </div>
       </header>
 
-      {/* Landing (Hero + Qualities) fills the first viewport */}
-      <section className="mx-auto max-w-6xl px-6 min-h-[92vh] flex flex-col justify-between">
-        <div className="pt-8 grid md:grid-cols-2 gap-10 items-center">
-          <div className="space-y-6">
-            <h1 className="font-display text-6xl md:text-7xl font-extrabold tracking-tight leading-tight">
-              Khushi Gusain
-            </h1>
-            <p className="text-lg md:text-xl font-semibold">Student | Full Stack Developer | Innovator</p>
-            <p className="text-lg text-[var(--muted)] max-w-prose">
-              Currently pursuing my education at Bennett University, I&apos;m a passionate full stack developer who believes that a great website is not just built — it&apos;s crafted with creativity, innovation, and a deep understanding of user experience.
+      {/* Landing (Hero) */}
+      <section className="mx-auto max-w-5xl px-6 pb-12 md:pb-14 pt-10 md:pt-14 lg:pt-16">
+        <div className="flex flex-col md:flex-row md:items-start gap-10 md:gap-11 lg:gap-12">
+          <div className="flex-1 min-w-0 md:max-w-xl lg:max-w-[34rem]">
+            <div className="space-y-2">
+              <h1 className={`${nameFont.className} text-4xl md:text-5xl font-bold tracking-tight leading-[1.1]`}>
+                Khushi Gusain
+              </h1>
+              <p className={`${taglineFont.className} text-sm md:text-[15px] tracking-wide text-lime-700 dark:text-lime-700`}>
+                Turning ideas into software.
+              </p>
+            </div>
+            <p className="mt-6 text-base md:text-[17px] leading-relaxed text-[var(--muted)]">
+              From EdTech platforms to SaaS products, I've helped build and ship software in fast-paced product environments. Drawn to system design, reliability, and the engineering decisions that shape products at scale.
             </p>
-            <div className="flex items-center gap-4">
+            <div className="mt-7 flex items-center gap-4">
               <a className="btn btn-primary" href="#connect">Contact Me</a>
             </div>
-            <div className="text-sm flex items-center gap-2 text-[var(--muted)]">
-              <span>Delhi NCR, India</span>
-            </div>
+            <p className="mt-4 text-sm text-[var(--muted)]/80">
+              Delhi NCR, India
+            </p>
           </div>
-          <div className="justify-self-center w-full max-w-[600px]">
-            <div className="tilt-frame animate-float-slow">
+          <div className="shrink-0 w-full max-w-[320px] sm:max-w-[340px] mx-auto md:mx-0 md:w-[360px] md:pt-1">
+            <div className="overflow-hidden rounded-lg border border-black/10 dark:border-white/15">
               <Image
                 src="/WhatsApp Image 2025-08-14 at 15.10.00.jpeg"
                 alt="Khushi Gusain - Portfolio Hero Image"
-                width={800}
-                height={600}
-                className="w-full h-[440px] md:h-[480px] object-cover rounded-[16px]"
+                width={360}
+                height={348}
+                priority
+                className="w-full h-[300px] sm:h-[318px] md:h-[348px] object-cover object-[center_18%] block"
               />
             </div>
           </div>
-        </div>
-        {/* Qualities / Traits */}
-        <div className="pb-4">
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
-            {[
-              { label: "Team Player", emoji: "🤝", bg: "bg-[var(--accent)]/30" },
-              { label: "Problem Solver", emoji: "🧩", bg: "bg-[var(--accent-blue)]/30" },
-              { label: "Pixel Perfect", emoji: "✨", bg: "bg-[var(--accent-yellow)]/30" },
-              { label: "Fast Learner", emoji: "⚡", bg: "bg-[var(--accent-coral)]/30" },
-              { label: "Reliable", emoji: "✅", bg: "bg-[var(--accent-lavender)]/30" },
-              { label: "Creative", emoji: "🎨", bg: "bg-[var(--accent-aqua)]/30" },
-            ].map((q) => (
-              <div
-                key={q.label}
-                className={`rounded-2xl ${q.bg} border px-4 py-3 flex items-center gap-3 text-base backdrop-blur-[2px] ${
-                  isDarkMode 
-                    ? 'border-white/20 shadow-[0_2px_0_0_rgba(255,255,255,0.18)]' 
-                    : 'border-black/10 shadow-[0_2px_0_0_rgba(0,0,0,0.18)]'
-                }`}
-              >
-                <span className="text-lg" aria-hidden>
-                  {q.emoji}
-                </span>
-                <span className="font-medium">{q.label}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-          <div className="text-sm text-[var(--muted)] flex items-center gap-2">
-            {/* spacer to keep structure; intentionally empty */}
         </div>
       </section>
 
@@ -1000,9 +976,9 @@ function ProjectsHyperfolio() {
   const rightVertical = projects.find((p) => p.orientation === "vertical") ?? projects[1];
 
   return (
-      <section id="projects" className="mx-auto max-w-6xl px-6 py-2 md:py-3">
+      <section id="projects" className="mx-auto max-w-6xl px-6 pt-4 md:pt-6 pb-2 md:pb-3">
        <div className="mx-auto max-w-6xl px-4 md:px-6">
-         <h2 className="font-display text-3xl font-bold">Recent Projects</h2>
+         <h2 className="font-display text-3xl text-center font-bold">Recent Projects</h2>
          
          {/* Project Type Switch */}
          <div className="flex items-center justify-center mt-4 mb-6">

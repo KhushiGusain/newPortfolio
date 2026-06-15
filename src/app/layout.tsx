@@ -1,17 +1,7 @@
 import type { Metadata } from "next";
-import { Inter, Sora } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "./contexts/ThemeContext";
-
-const bodyFont = Inter({
-  variable: "--font-body",
-  subsets: ["latin"],
-});
-
-const displayFont = Sora({
-  variable: "--font-display",
-  subsets: ["latin"],
-});
+import { bodyFont, displayFont, nameFont, taglineFont } from "./fonts";
 
 export const metadata: Metadata = {
   title: "Khushi Gusain - Portfolio",
@@ -25,8 +15,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${bodyFont.variable} ${displayFont.variable} antialiased`}>
+    <html
+      lang="en"
+      className={`${bodyFont.variable} ${displayFont.variable} ${nameFont.variable} ${taglineFont.variable}`}
+    >
+      <body className={`${bodyFont.className} antialiased`}>
         <ThemeProvider>
           {children}
         </ThemeProvider>
