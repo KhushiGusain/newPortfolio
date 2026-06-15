@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "./contexts/ThemeContext";
-import { bodyFont, categoryFont, displayFont, logoFont, nameFont, taglineFont } from "./fonts";
+import { bodyFont, categoryFont, displayFont, logoFont, nameFont, skillFont, taglineFont } from "./fonts";
 
 export const metadata: Metadata = {
   title: "Khushi Gusain - Portfolio",
@@ -17,7 +17,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${bodyFont.variable} ${displayFont.variable} ${nameFont.variable} ${taglineFont.variable} ${logoFont.variable} ${categoryFont.variable}`}
+      className={`${bodyFont.variable} ${displayFont.variable} ${nameFont.variable} ${taglineFont.variable} ${logoFont.variable} ${categoryFont.variable} ${skillFont.variable}`}
     >
       <body className={`${bodyFont.className} antialiased`}>
         <ThemeProvider>

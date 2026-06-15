@@ -3,7 +3,7 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import ThemeToggle from "./components/ThemeToggle";
 import { useTheme } from "./contexts/ThemeContext";
-import { categoryFont, logoFont, nameFont, taglineFont } from "./fonts";
+import { categoryFont, logoFont, skillFont, taglineFont } from "./fonts";
 
 type TimelineItem = {
   id: string;
@@ -14,6 +14,18 @@ type TimelineItem = {
   type: "education" | "work";
   details?: string[];
 };
+
+const MONTH_LABELS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+function formatTimelineDate(ym: string): string {
+  const [year, month] = ym.split("-");
+  if (!month) return year;
+  return `${MONTH_LABELS[parseInt(month, 10) - 1]} ${year}`;
+}
+
+function formatTimelineRange(start: string, end?: string): string {
+  return `${formatTimelineDate(start)} – ${end ? formatTimelineDate(end) : "Present"}`;
+}
 
 type Project = {
   id: string;
@@ -31,64 +43,47 @@ type Project = {
 
 const timeline: TimelineItem[] = [
   {
-    id: "t2022",
-    title: "Started B.Tech",
+    id: "t_bennett",
+    title: "B.Tech Computer Science and Engineering",
     org: "Bennett University",
     start: "2022-08",
+    end: "2026-05",
     type: "education",
     details: [
-      "Specialization in Full Stack Development and Data Analytics",
+      "8.86 CGPA",
+      "Focused on software engineering, data structures & algorithms, databases, and system design.",
     ],
   },
   {
-    id: "t2023_2024_academic",
-    title: "Academic Excellence & Projects",
-    org: "Bennett University",
-    start: "2023-01",
-    end: "2024-01",
-    type: "education",
-    details: [
-      "Achieved 9+ CGPA across four consecutive semesters",
-      "Solved 250+ DSA questions and built 5–6 core innovative projects",
-    ],
-  },
-  {
-    id: "t2024_boloo",
-    title: "Full Stack Intern",
-    org: "Boloo (International)",
-    start: "2024-01",
-    end: "2024-06",
-    type: "work",
-    details: [
-      "Contributed to end‑to‑end feature development across frontend (React/Next.js) and backend (Node/Express)",
-      "Collaborated with an international team on APIs, testing, and deployments",
-    ],
-  },
-  {
-    id: "t2024_ezlearn",
+    id: "t_ezlearn",
     title: "Lead Developer Intern",
-    org: "Ezlearn (EdTech)",
-    start: "2024-06",
+    org: "EzLearn",
+    start: "2024-09",
     end: "2025-03",
     type: "work",
     details: [
-      "Developed complete full-stack platform for Ezlearn with frontend and backend infrastructure on Google Cloud Platform",
-      "Designed to handle up to 5,000 concurrent users with scalable architecture and real-time features",
-      "Led development of core product modules, focusing on scalability, usability, and performance optimization",
+      "Led development of key platform features and AI-powered learning tools for an EdTech product.",
+    ],
+  },
+  {
+    id: "t_wingify",
+    title: "Software Engineering Intern",
+    org: "Wingify",
+    start: "2025-09",
+    end: "2026-03",
+    type: "work",
+    details: [
+      "Contributed to VWO Pulse, building production features and improving reliability for a customer feedback platform used at scale.",
     ],
   },
   {
     id: "t_open",
     title: "Open to Work",
     org: "Actively exploring roles",
-    start: "2025-03",
+    start: "2026-03",
     type: "work",
     details: [
-      "Full Stack Development roles with expertise in React.js, Next.js, and Tailwind CSS",
-      "Backend & API Development using Node.js, Express.js, and RESTful APIs",
-      "Database Management with MongoDB, PostgreSQL, and DynamoDB",
-      "Cloud & DevOps including AWS and Docker",
-      "Available for full-time roles, internships, or part-time opportunities in Delhi NCR or remote",
+      "Seeking opportunities to contribute to high-impact engineering teams.",
     ],
   },
 ];
@@ -473,7 +468,7 @@ export default function Home() {
         <div className="flex flex-col md:flex-row md:items-start gap-10 md:gap-11 lg:gap-12">
           <div className="flex-1 min-w-0 md:max-w-xl lg:max-w-[34rem] text-left">
             <div className="space-y-2">
-              <h1 className={`${nameFont.className} text-4xl md:text-5xl font-bold tracking-tight leading-[1.1]`}>
+              <h1 className={`${categoryFont.className} text-4xl md:text-6xl font-semibold tracking-tight leading-[1.1]`}>
                 Khushi Gusain
               </h1>
               <p className={`${taglineFont.className} text-sm md:text-[15px] tracking-wide text-lime-700 dark:text-lime-700`}>
@@ -628,7 +623,7 @@ export default function Home() {
                   isEven ? 'md:pr-12 md:mr-auto' : 'md:pl-12 md:ml-auto'
                 }`}>
                   <div
-                    className={`relative ${item.id === 't_open' ? 'overflow-visible' : 'overflow-hidden'} rounded-2xl border-2 bg-white p-4 md:p-6 min-h-48 md:min-h-56 flex flex-col justify-between w-full md:w-80 lg:w-96 xl:w-[28rem] ${
+                    className={`relative ${item.id === 't_open' ? 'overflow-visible' : 'overflow-hidden'} rounded-2xl border-2 bg-white p-4 md:p-6 flex flex-col gap-3 w-full md:w-80 lg:w-96 xl:w-[28rem] ${
                       isEven ? 'md:ml-auto' : 'md:mr-auto'
                     } transform-gpu transition duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform ${
                       revealed[index] ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-6 scale-[0.98]'
@@ -661,20 +656,14 @@ export default function Home() {
                         </div>
                       </>
                     ) : null}
-                    <div className={`flex items-center justify-between mb-2 text-left ${
+                    <div className={`flex items-center justify-between text-left ${
                       isEven ? 'md:text-right' : 'md:text-left'
                     }`}>
-                      <div className="flex items-center gap-2">
-                        <div className={`w-6 h-6 rounded-full flex items-center justify-center text-sm font-bold ${
-                          item.type === "education" 
-                            ? "bg-[var(--accent-blue)]/30 text-[var(--accent-blue)]" 
-                            : "bg-[var(--accent)]/30 text-[var(--accent)]"
-                        }`}>
-                          {item.org.charAt(0)}
-                        </div>
-                        <h3 className="font-semibold text-lg">{item.org}</h3>
-                      </div>
-                      <span className={`rounded-full px-3 py-1 w-fit text-sm font-medium border ${
+                      <h3 className={`${categoryFont.className} text-xl font-semibold ${isDarkMode ? "text-white" : "text-black"}`}>
+                        {item.org}
+                      </h3>
+                      {item.id !== "t_open" ? (
+                      <span className={`rounded-full px-3 py-1 w-fit text-sm font-medium border shrink-0 ${
                         item.type === "education"
                           ? "bg-[var(--accent-blue)]/30 border-[var(--accent-blue)]/40"
                           : "bg-[var(--accent)]/30 border-[var(--accent)]/40"
@@ -685,18 +674,23 @@ export default function Home() {
                       }`}>
                         {item.type === "education" ? "Education" : "Work"}
                       </span>
+                      ) : null}
                     </div>
                     <div>
                       <h4 className="text-md font-medium">{item.title}</h4>
-                      <p className="text-sm text-[var(--muted)] mt-2">
-                        {item.start} – {item.end ?? "Present"}
+                      <p className="text-sm text-[var(--muted)] mt-1">
+                        {formatTimelineRange(item.start, item.end)}
                       </p>
                       {item.details && item.details.length > 0 ? (
-                        <ul className="mt-3 space-y-1 text-sm list-disc list-inside text-left">
+                        item.id === "t_open" ? (
+                          <p className="mt-2 text-sm text-[var(--foreground)]/90">{item.details[0]}</p>
+                        ) : (
+                        <ul className="mt-2 space-y-1 text-sm list-disc list-inside text-left">
                           {item.details.map((d, i) => (
                             <li key={i} className="text-[var(--foreground)]/90">{d}</li>
                           ))}
                         </ul>
+                        )
                       ) : null}
                     </div>
                   </div>
@@ -709,16 +703,18 @@ export default function Home() {
 
       {/* Technical Knowledge */}
       <section id="skills" className="mx-auto max-w-6xl px-6 py-16">
-        <h2 className="font-display text-center text-3xl font-bold">Technical Knowledge</h2>
-        <p className="text-[var(--muted)] text-center mt-1">Key skills across frontend, backend, databases, and cloud/devops.</p>
+        <h2 className="font-display text-3xl font-bold">Technical Knowledge</h2>
+        <p className="text-[var(--muted)] mt-1">Key skills across backend, databases, cloud/devops & frontend.</p>
         <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {skillCategories.map((category) => (
             <CardShell key={category.title}>
               <div className="p-6 h-full flex flex-col">
-                <h3 className={`${categoryFont.className} text-center text-2xl italic text-lime-600 dark:text-lime-400 pb-3 border-b border-black/8 dark:border-white/10`}>
-                  {category.title}
-                </h3>
-                <ul className="mt-4 divide-y divide-black/8 dark:divide-white/10">
+                <div className={`pb-4 border-b ${isDarkMode ? "border-white/20" : "border-black/15"}`}>
+                  <h3 className={`${categoryFont.className} text-center text-2xl italic ${isDarkMode ? "text-white" : "text-black"}`}>
+                    {category.title}
+                  </h3>
+                </div>
+                <ul className="mt-4">
                   {category.skills.map((skill) => (
                     <SkillRow key={skill.label} label={skill.label} icon={skill.icon} />
                   ))}
@@ -790,7 +786,7 @@ export default function Home() {
       <section id="connect" className="mx-auto max-w-6xl px-6 pb-24 relative">
         <div className="aurora-connect" />
         <h2 className="font-display text-3xl font-bold">Let&apos;s Connect</h2>
-        <p className="mt-2 text-[var(--muted)] text-lg">Have an opportunity or want to collaborate? I&apos;d love to hear from you.</p>
+        <p className="mt-2 text-[var(--muted)] text-lg">The best opportunities often start with a simple conversation. Let's connect.</p>
         
         {/* Contact Cards Grid */}
         <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -909,7 +905,7 @@ function SkillRow({ label, icon }: { label: string; icon: string }) {
       <div className="relative h-6 w-6 shrink-0 rounded-md border border-black/8 dark:border-white/10 bg-white dark:bg-white/[0.04] p-1">
         <Image src={icon} alt="" fill className="object-contain" unoptimized aria-hidden />
       </div>
-      <span className="font-medium tracking-tight text-[var(--foreground)]/88">{label}</span>
+      <span className={`${skillFont.className} font-medium tracking-tight text-[var(--foreground)]/88`}>{label}</span>
     </li>
   );
 }
