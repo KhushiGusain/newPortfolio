@@ -3,7 +3,7 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import ThemeToggle from "./components/ThemeToggle";
 import { useTheme } from "./contexts/ThemeContext";
-import { nameFont, taglineFont } from "./fonts";
+import { categoryFont, logoFont, nameFont, taglineFont } from "./fonts";
 
 type TimelineItem = {
   id: string;
@@ -190,6 +190,80 @@ const selfProjects: Project[] = [
   },
 ];
 
+const skillCategories = [
+  {
+    title: "Backend",
+    skills: [
+      { label: "Java", icon: "https://raw.githubusercontent.com/onemarc/tech-icons/main/icons/java-light.svg" },
+      { label: "Spring Boot", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original.svg" },
+      { label: "Node.js", icon: "https://raw.githubusercontent.com/onemarc/tech-icons/main/icons/nodejs-light.svg" },
+      { label: "REST APIs", icon: "https://raw.githubusercontent.com/onemarc/tech-icons/main/icons/expressjs-light.svg" },
+    ],
+  },
+  {
+    title: "Databases",
+    skills: [
+      { label: "PostgreSQL", icon: "https://raw.githubusercontent.com/onemarc/tech-icons/main/icons/postgressql-light.svg" },
+      { label: "MySQL", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" },
+      { label: "MongoDB", icon: "https://raw.githubusercontent.com/onemarc/tech-icons/main/icons/mongodb-light.svg" },
+      { label: "Redis", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redis/redis-original.svg" },
+    ],
+  },
+  {
+    title: "Cloud & DevOps",
+    skills: [
+      { label: "AWS", icon: "https://raw.githubusercontent.com/onemarc/tech-icons/main/icons%232/aws-light.svg" },
+      { label: "Docker", icon: "https://raw.githubusercontent.com/onemarc/tech-icons/main/icons/docker-light.svg" },
+      { label: "CI/CD", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/githubactions/githubactions-original.svg" },
+      { label: "Git", icon: "https://raw.githubusercontent.com/onemarc/tech-icons/main/icons/git-light.svg" },
+    ],
+  },
+  {
+    title: "Frontend",
+    skills: [
+      { label: "React", icon: "https://raw.githubusercontent.com/onemarc/tech-icons/main/icons/react-light.svg" },
+      { label: "Next.js", icon: "https://raw.githubusercontent.com/onemarc/tech-icons/main/icons/nextjs-light.svg" },
+      { label: "Tailwind CSS", icon: "https://raw.githubusercontent.com/onemarc/tech-icons/main/icons/tailwindcss-light.svg" },
+    ],
+  },
+];
+
+const heroLinks = [
+  { label: "GitHub", href: "https://github.com/KhushiGusain", icon: "github" as const },
+  { label: "LinkedIn", href: "https://www.linkedin.com/in/khushii-gusain-673b17282/", icon: "linkedin" as const },
+  { label: "LeetCode", href: "https://leetcode.com/u/khushiigusain/", icon: "leetcode" as const },
+];
+
+function HeroLinkIcon({ type }: { type: "github" | "linkedin" | "leetcode" }) {
+  const className = "h-[18px] w-[18px] shrink-0";
+
+  if (type === "github") {
+    return (
+      <svg className={className} fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+      </svg>
+    );
+  }
+
+  if (type === "linkedin") {
+    return (
+      <svg className={className} fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.3 6.5a1.78 1.78 0 01-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19a.66.66 0 000 .14V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z" />
+      </svg>
+    );
+  }
+
+  if (type === "leetcode") {
+    return (
+      <svg className={className} fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M13.483 0a1.374 1.374 0 0 0-.961.877V2.926L8.496 6.212a1.374 1.374 0 0 0-.27.866v2.645l-3.132 3.103a1.374 1.374 0 0 0-.383.948v5.086c0 .512.282.978.733 1.216l5.402 2.869a1.374 1.374 0 0 0 1.298 0l5.402-2.869a1.374 1.374 0 0 0 .733-1.216v-5.086a1.374 1.374 0 0 0-.383-.948l-3.132-3.103V7.078a1.374 1.374 0 0 0-.27-.866L14.444.877A1.374 1.374 0 0 0 13.483 0zm-.316 1.096 3.494 3.494-3.494 3.494V1.096zm-1.334 0v6.988L8.655 4.59 11.833 1.096zM2.678 13.24l2.936-2.907 2.936 2.907-2.936 2.907-2.936-2.907zm16.644 0-2.936 2.907-2.936-2.907 2.936-2.907 2.936 2.907zM12 13.583l3.494 3.494H8.506l3.494-3.494z" />
+      </svg>
+    );
+  }
+
+  return null;
+}
+
 // Removed unused tech array
 
 const techStacks = [
@@ -366,18 +440,18 @@ export default function Home() {
       <div className="aurora-hero" />
       {/* Header */}
       <header className="mx-auto max-w-6xl px-6 py-6 flex items-center justify-between">
-        <div className="inline-flex items-center gap-2">
-          <span className={`rounded-full bg-[var(--accent-pink)]/30 border px-3 py-1 text-md font-semibold ${
-            isDarkMode 
-              ? 'border-white/20 shadow-[0_2px_0_0_rgba(255,255,255,0.2)]' 
-              : 'border-black/20 shadow-[0_2px_0_0_rgba(0,0,0,0.2)]'
-          }`}>K.</span>
-        </div>
+        <a
+          href="#"
+          className={`${logoFont.className} inline-flex items-baseline text-xl font-bold tracking-tight text-[var(--foreground)] transition-opacity hover:opacity-70`}
+          aria-label="Khushi Gusain home"
+        >
+          gusainkhushii<span className="text-lime-700 dark:text-lime-500">.</span>
+        </a>
         <nav className="hidden md:flex items-center gap-6 text-sm">
           <a className="hover:underline" href="#projects">Projects</a>
           <a className="hover:underline" href="#experience">Experience</a>
-          <a className="hover:underline" href="#connect">Connect</a>
-          <a className="btn btn-primary ml-2" href="#connect">Contact Me</a>
+          <a className="hover:underline" href="#skills">Skills</a>
+          <a className="btn-nav btn-nav-primary ml-1 shrink-0" href="#connect">Contact Me</a>
         </nav>
         <div className="flex items-center gap-4">
           <div onClick={handleThemeToggle}>
@@ -397,7 +471,7 @@ export default function Home() {
       {/* Landing (Hero) */}
       <section className="mx-auto max-w-5xl px-6 pb-12 md:pb-14 pt-10 md:pt-14 lg:pt-16">
         <div className="flex flex-col md:flex-row md:items-start gap-10 md:gap-11 lg:gap-12">
-          <div className="flex-1 min-w-0 md:max-w-xl lg:max-w-[34rem]">
+          <div className="flex-1 min-w-0 md:max-w-xl lg:max-w-[34rem] text-left">
             <div className="space-y-2">
               <h1 className={`${nameFont.className} text-4xl md:text-5xl font-bold tracking-tight leading-[1.1]`}>
                 Khushi Gusain
@@ -409,12 +483,24 @@ export default function Home() {
             <p className="mt-6 text-base md:text-[17px] leading-relaxed text-[var(--muted)]">
               From EdTech platforms to SaaS products, I've helped build and ship software in fast-paced product environments. Drawn to system design, reliability, and the engineering decisions that shape products at scale.
             </p>
-            <div className="mt-7 flex items-center gap-4">
-              <a className="btn btn-primary" href="#connect">Contact Me</a>
+            <div className="mt-7 flex w-full flex-wrap justify-start items-start gap-2.5">
+              {heroLinks.map((link, index) => (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`group inline-flex min-h-0 min-w-0 items-center gap-2.5 rounded-lg py-2.5 text-sm font-medium text-[var(--foreground)]/80 transition hover:text-[var(--foreground)] ${
+                    index === 0 ? "pl-0 pr-4" : "px-4"
+                  }`}
+                >
+                  <span className="text-[var(--foreground)]/55 transition group-hover:text-[var(--foreground)]/80">
+                    <HeroLinkIcon type={link.icon} />
+                  </span>
+                  {link.label}
+                </a>
+              ))}
             </div>
-            <p className="mt-4 text-sm text-[var(--muted)]/80">
-              Delhi NCR, India
-            </p>
           </div>
           <div className="shrink-0 w-full max-w-[320px] sm:max-w-[340px] mx-auto md:mx-0 md:w-[360px] md:pt-1">
             <div className="overflow-hidden rounded-lg border border-black/10 dark:border-white/15">
@@ -623,67 +709,23 @@ export default function Home() {
 
       {/* Technical Knowledge */}
       <section id="skills" className="mx-auto max-w-6xl px-6 py-16">
-        <h2 className="font-display text-3xl font-bold">Technical Knowledge</h2>
-        <p className="text-[var(--muted)] mt-1">Key skills across frontend, backend, databases, and cloud/devops.</p>
+        <h2 className="font-display text-center text-3xl font-bold">Technical Knowledge</h2>
+        <p className="text-[var(--muted)] text-center mt-1">Key skills across frontend, backend, databases, and cloud/devops.</p>
         <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {/* Frontend */}
-          <CardShell>
-            <div className="p-6 h-full flex flex-col">
-              <div className="inline-flex items-center gap-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-[var(--accent-blue)]" />
-                <h3 className="text-lg font-semibold">Frontend Development</h3>
+          {skillCategories.map((category) => (
+            <CardShell key={category.title}>
+              <div className="p-6 h-full flex flex-col">
+                <h3 className={`${categoryFont.className} text-center text-2xl italic text-lime-600 dark:text-lime-400 pb-3 border-b border-black/8 dark:border-white/10`}>
+                  {category.title}
+                </h3>
+                <ul className="mt-4 divide-y divide-black/8 dark:divide-white/10">
+                  {category.skills.map((skill) => (
+                    <SkillRow key={skill.label} label={skill.label} icon={skill.icon} />
+                  ))}
+                </ul>
               </div>
-              <div className="mt-4 space-y-4 text-sm">
-                <SkillRow label="React.js" percent={90} />
-                <SkillRow label="Next.js" percent={88} />
-                <SkillRow label="Tailwind CSS" percent={92} />
-              </div>
-            </div>
-          </CardShell>
-
-          {/* Backend */}
-          <CardShell>
-            <div className="p-6 h-full flex flex-col">
-              <div className="inline-flex items-center gap-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-[var(--accent)]" />
-                <h3 className="text-lg font-semibold">Backend Development & APIs</h3>
-              </div>
-              <div className="mt-4 space-y-4 text-sm">
-                <SkillRow label="Node.js" percent={90} />
-                <SkillRow label="Express.js" percent={88} />
-                <SkillRow label="RESTful APIs" percent={92} />
-              </div>
-            </div>
-          </CardShell>
-
-          {/* Databases */}
-          <CardShell>
-            <div className="p-6 h-full flex flex-col">
-              <div className="inline-flex items-center gap-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-[var(--accent-lavender)]" />
-                <h3 className="text-lg font-semibold">Databases</h3>
-              </div>
-              <div className="mt-4 space-y-4 text-sm">
-                <SkillRow label="MongoDB" percent={90} />
-                <SkillRow label="PostgreSQL" percent={85} />
-                <SkillRow label="DynamoDB" percent={80} />
-              </div>
-            </div>
-          </CardShell>
-
-          {/* Cloud & DevOps */}
-          <CardShell>
-            <div className="p-6 h-full flex flex-col">
-              <div className="inline-flex items-center gap-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-[var(--accent-aqua)]" />
-                <h3 className="text-lg font-semibold">Cloud & DevOps</h3>
-              </div>
-              <div className="mt-4 space-y-4 text-sm">
-                <SkillRow label="AWS" percent={82} />
-                <SkillRow label="Docker" percent={80} />
-              </div>
-            </div>
-          </CardShell>
+            </CardShell>
+          ))}
         </div>
       </section>
 
@@ -769,7 +811,7 @@ export default function Home() {
                 <p className="text-[var(--muted)] text-sm">Download my latest resume</p>
               </div>
             </div>
-            <a className="btn btn-secondary w-full justify-center" href="https://drive.google.com/file/d/1Gy9QyyVWmBj06NFmp2gqqQ3yg7wXk0Bb/view " target="_blank" rel="noopener noreferrer">
+            <a className="btn btn-secondary w-full justify-center" href="https://drive.google.com/file/d/10KpKd17pdLdIV2E2EXoEvb24K5UtNlid/view?usp=sharing" target="_blank" rel="noopener noreferrer">
               Download Resume
             </a>
           </div>
@@ -791,7 +833,7 @@ export default function Home() {
                 <p className="text-[var(--muted)] text-sm">Professional network</p>
               </div>
             </div>
-            <a className="btn btn-secondary w-full justify-center" href="https://www.linkedin.com/in/khushi-gusain-673b17282/ " target="_blank" rel="noopener noreferrer">
+            <a className="btn btn-secondary w-full justify-center" href="https://www.linkedin.com/in/khushii-gusain-673b17282/" target="_blank" rel="noopener noreferrer">
               Connect on LinkedIn
             </a>
           </div>
@@ -861,27 +903,14 @@ export default function Home() {
   );
 }
 
-function SkillRow({ label, percent }: { label: string; percent: number }) {
-  const { theme } = useTheme();
-  const isDarkMode = theme === 'dark';
-  
+function SkillRow({ label, icon }: { label: string; icon: string }) {
   return (
-    <div>
-      <div className="flex items-center justify-between">
-        <span className="font-medium">{label}</span>
-        <span className="text-[var(--muted)] font-medium">{percent}%</span>
+    <li className="flex items-center gap-3 py-2.5 text-sm">
+      <div className="relative h-6 w-6 shrink-0 rounded-md border border-black/8 dark:border-white/10 bg-white dark:bg-white/[0.04] p-1">
+        <Image src={icon} alt="" fill className="object-contain" unoptimized aria-hidden />
       </div>
-      <div className={`mt-1 h-2 w-full rounded-full overflow-hidden border ${
-        isDarkMode 
-          ? 'bg-white/10 border-white/20' 
-          : 'bg-black/5 border-black/10'
-      }`}>
-        <div
-          className="h-full rounded-full bg-[var(--accent)]"
-          style={{ width: `${percent}%` }}
-        />
-      </div>
-    </div>
+      <span className="font-medium tracking-tight text-[var(--foreground)]/88">{label}</span>
+    </li>
   );
 }
 
