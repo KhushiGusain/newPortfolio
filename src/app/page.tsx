@@ -343,15 +343,6 @@ export default function Home() {
   const rafRef = useRef<number | null>(null);
   const [revealed, setRevealed] = useState<boolean[]>([]);
   const scheduledRevealRef = useRef<Set<number>>(new Set());
-  const [ribbonText, setRibbonText] = useState("Do Not Click Me!");
-
-  const handleThemeToggle = () => {
-    if (!isDarkMode) {
-      setRibbonText("I warned ya!");
-    } else {
-      setRibbonText("Do Not Click Me!");
-    }
-  };
 
   useEffect(() => {
     const updateTargets = () => {
@@ -448,18 +439,8 @@ export default function Home() {
           <a className="hover:underline" href="#skills">Skills</a>
           <a className="btn-nav btn-nav-primary ml-1 shrink-0" href="#connect">Contact Me</a>
         </nav>
-        <div className="flex items-center gap-4">
-          <div onClick={handleThemeToggle}>
+        <div className="flex items-center">
           <ThemeToggle />
-          </div>
-          {/* Open to Work accent ribbon */}
-          <div className="pointer-events-none relative">
-            <div className="pointer-events-none absolute top-4 sm:top-6 -right-6 sm:-right-8 md:-right-6 rotate-0 z-210">
-              <span className={`inline-block bg-red-600 text-white text-[10px] sm:text-xs font-semibold px-2 sm:px-3 md:px-4 py-1 rounded-full border border-red-700 shadow-[0_2px_0_0_rgba(220,38,38,0.3)] whitespace-nowrap`}>
-                {ribbonText}
-              </span>
-            </div>
-          </div>
         </div>
       </header>
 
@@ -521,7 +502,7 @@ export default function Home() {
       </div>
 
       {/* Timeline - Vertical Layout */}
-      <section id="experience" className="mx-auto max-w-6xl px-6 py-16">
+      <section id="experience" className="mx-auto max-w-6xl px-6 pt-16 pb-8">
         <h2 className="font-display text-3xl font-bold">Timeline</h2>
         <p className="text-[var(--muted)] mt-1">My professional and educational journey.</p>
         
@@ -677,10 +658,14 @@ export default function Home() {
                       ) : null}
                     </div>
                     <div>
-                      <h4 className="text-md font-medium">{item.title}</h4>
-                      <p className="text-sm text-[var(--muted)] mt-1">
-                        {formatTimelineRange(item.start, item.end)}
-                      </p>
+                      {item.id !== "t_open" ? (
+                        <h4 className="text-md font-medium">{item.title}</h4>
+                      ) : null}
+                      {item.id !== "t_open" ? (
+                        <p className="text-sm text-[var(--muted)] mt-1">
+                          {formatTimelineRange(item.start, item.end)}
+                        </p>
+                      ) : null}
                       {item.details && item.details.length > 0 ? (
                         item.id === "t_open" ? (
                           <p className="mt-2 text-sm text-[var(--foreground)]/90">{item.details[0]}</p>
@@ -702,7 +687,7 @@ export default function Home() {
       </section>
 
       {/* Technical Knowledge */}
-      <section id="skills" className="mx-auto max-w-6xl px-6 py-16">
+      <section id="skills" className="mx-auto max-w-6xl px-6 pt-8 pb-16">
         <h2 className="font-display text-3xl font-bold">Technical Knowledge</h2>
         <p className="text-[var(--muted)] mt-1">Key skills across backend, databases, cloud/devops & frontend.</p>
         <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
