@@ -1,9 +1,11 @@
 "use client";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import MouseSpotlight from "./components/MouseSpotlight";
+import { ScrollReveal, ScrollRevealGroup, ScrollRevealItem } from "./components/ScrollReveal";
 import ThemeToggle from "./components/ThemeToggle";
 import { useTheme } from "./contexts/ThemeContext";
-import { logoFont, nameFont } from "./fonts";
+import { logoFont } from "./fonts";
 
 type TimelineItem = {
   id: string;
@@ -37,6 +39,8 @@ type Project = {
   imageSrc?: string;
   carouselImages?: string[];
   orientation?: "horizontal" | "vertical"; // layout hint
+  year?: string;
+  badges?: string[];
   github?: string;
   website?: string;
 };
@@ -62,7 +66,9 @@ const timeline: TimelineItem[] = [
     end: "2025-03",
     type: "work",
     details: [
-      "Led development of key platform features and AI-powered learning tools for an EdTech product.",
+      "Delivered key features for content management, assessments, and learner workflows on a production EdTech platform.",
+      "Designed and developed backend services utilizing FastAPI, PostgreSQL, and AWS to enhance system performance.",
+      "Collaborated with product teams to drive features from initial requirements through to successful deployment.",
     ],
   },
   {
@@ -73,7 +79,9 @@ const timeline: TimelineItem[] = [
     end: "2026-03",
     type: "work",
     details: [
-      "Contributed to VWO Pulse, building production features and improving reliability for a customer feedback platform used at scale.",
+      "Delivered features and enhancements for VWO Pulse Surveys, improving customer feedback capabilities.",
+      "Developed production-ready functionality using AngularJS and JavaScript, focusing on performance and user experience.",
+      "Diagnosed and resolved production issues, contributing to feature enhancements for better product reliability.",
     ],
   },
   {
@@ -90,11 +98,15 @@ const timeline: TimelineItem[] = [
 
 const projects: Project[] = [
   {
-    id: "p1",
-    title: "Ezlearn Edtech",
-    summary: "Developed a complete full-stack platform for Ezlearn with frontend and backend infrastructure on Google Cloud Platform, designed to handle up to 5,000 concurrent users.",
-    type: "web",
-    color: "var(--accent-peach)",
+    id: "p3",
+    title: "InterviewlyAI",
+    summary: "Developed a full-stack interview preparation platform featuring AI evaluation pipelines, analytics, and scalable backend architecture.",
+    type: "AI Platform",
+    color: "var(--accent-pink)",
+    orientation: "horizontal",
+    year: "2026",
+    badges: ["Backend"],
+    website: "https://interviewly-ai-black.vercel.app/login",
   },
   {
     id: "p2",
@@ -107,12 +119,13 @@ const projects: Project[] = [
     orientation: "vertical",
   },
   {
-    id: "p3",
-    title: "Catlysis",
-    summary: "Developed frontend and complete architecture for an entrance exam analysis and tracking platform with monthly subscription features.",
+    id: "p1",
+    title: "Ezlearn Edtech",
+    summary: "Developed a complete full-stack platform for Ezlearn with frontend and backend infrastructure on Google Cloud Platform, designed to handle up to 5,000 concurrent users.",
     type: "web",
-    color: "var(--accent-pink)",
-    orientation: "horizontal",
+    color: "var(--accent-peach)",
+    year: "2024",
+    badges: ["Edtech"],
   },
   {
     id: "p4",
@@ -140,23 +153,9 @@ const projects: Project[] = [
 const selfProjects: Project[] = [
   {
     id: "sp1",
-    title: "Dynamic Blog Post Generator",
-    summary: "Dynamic blog system with unique slugs and rich text formatting.",
-    type: "web",
-    color: "var(--accent-peach)",
-    imageSrc: "/blog-posts-generator.png",
-    carouselImages: [
-      "/blog-posts-generator.png",
-      "/blog-posts-generator-2.png"
-    ],
-    github: "https://github.com/KhushiGusain/Dynamic-Blog-Post-with-Admin-Portal-and-Authentication",
-    website: "https://dynamic-blog-post-with-admin-portal-brown.vercel.app/",
-  },
-  {
-    id: "sp2",
     title: "TaskHive",
     summary: "SaaS platform for project management with real-time collaboration and AI queries.",
-    type: "app",
+    type: "web",
     color: "var(--accent-blue)",
     imageSrc: "/taskhive.png",
     carouselImages: [
@@ -166,6 +165,21 @@ const selfProjects: Project[] = [
     ],
     github: "https://github.com/KhushiGusain/TaskHive",
     website: "https://task-hive-otaa.vercel.app/",
+  },
+  {
+    id: "sp2",
+    title: "Apex Store Intelligence",
+    summary: "Built an end-to-end retail intelligence pipeline that transforms raw CCTV footage into structured events, store analytics, operational insights, and real-time dashboards.",
+    type: "web",
+    color: "var(--accent-peach)",
+    imageSrc: "/blog-posts-generator.png",
+    carouselImages: [
+      "/blog-posts-generator.png",
+      "/blog-posts-generator-2.png"
+    ],
+    year: "2026",
+    badges: ["Computer Vision", "Store Intelligence"],
+    github: "https://github.com/KhushiGusain/Apex-Retail-Store-Intelligence",
   },
   {
     id: "sp3",
@@ -341,8 +355,6 @@ export default function Home() {
   const containerTopRef = useRef(0);
   const containerHeightRef = useRef(0);
   const rafRef = useRef<number | null>(null);
-  const [revealed, setRevealed] = useState<boolean[]>([]);
-  const scheduledRevealRef = useRef<Set<number>>(new Set());
 
   useEffect(() => {
     const updateTargets = () => {
@@ -389,40 +401,11 @@ export default function Home() {
       window.removeEventListener("resize", updateTargets as EventListener);
     };
   }, []);
-
-  // Reveal animation for timeline cards
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          const idx = itemRefs.current.findIndex((el) => el === entry.target);
-          if (idx === -1) return;
-          if (entry.isIntersecting) {
-            if (scheduledRevealRef.current.has(idx)) return;
-            scheduledRevealRef.current.add(idx);
-            const baseDelayMs = 220;
-            const perItemStaggerMs = 120;
-            setTimeout(() => {
-              setRevealed((prev) => {
-                if (prev[idx]) return prev;
-                const next = prev.slice();
-                next[idx] = true;
-                return next;
-              });
-              scheduledRevealRef.current.delete(idx);
-            }, baseDelayMs + idx * perItemStaggerMs);
-          }
-        });
-      },
-      { threshold: 0.5, rootMargin: "0px 0px -10% 0px" }
-    );
-    itemRefs.current.forEach((el) => {
-      if (el) observer.observe(el);
-    });
-    return () => observer.disconnect();
-  }, []);
   return (
-    <div className="bg-dots corner-fade min-h-screen relative overflow-hidden">
+    <div className="relative isolate min-h-screen overflow-hidden">
+      <div className="pointer-events-none absolute inset-0 -z-20 bg-dots corner-fade" aria-hidden="true" />
+      <MouseSpotlight />
+      <div className="relative z-10">
       <div className="aurora-hero" />
       {/* Header */}
       <header className="mx-auto max-w-6xl px-6 py-6 flex items-center justify-between">
@@ -445,30 +428,28 @@ export default function Home() {
       </header>
 
       {/* Landing (Hero) */}
-      <section className="mx-auto max-w-5xl px-6 pb-12 md:pb-14 pt-10 md:pt-14 lg:pt-16">
-        <div className="flex flex-col md:flex-row md:items-start gap-10 md:gap-11 lg:gap-12">
-          <div className="flex-1 min-w-0 md:max-w-xl lg:max-w-[34rem] text-left">
+      <section className="mx-auto max-w-6xl px-6 pb-12 md:pb-14 pt-10 md:pt-14 lg:pt-16">
+        <div className="grid grid-cols-1 md:grid-cols-[minmax(0,1.45fr)_minmax(0,0.85fr)] md:items-center gap-9 md:gap-12 lg:gap-14">
+          <ScrollReveal className="min-w-0 text-left md:pr-4 lg:pr-8">
             <div className="space-y-2">
-              <h1 className={`${nameFont.className} text-4xl md:text-6xl font-semibold tracking-tight leading-[1.1]`}>
+              <h1 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-[4.05rem] font-semibold tracking-tight leading-[1.06]">
                 Khushi Gusain
               </h1>
-              <p className="text-sm md:text-[15px] tracking-wide text-lime-700 dark:text-lime-700">
-                Turning ideas into software.
+              <p className="text-[13px] md:text-[15px] leading-relaxed font-medium text-lime-700 dark:text-lime-700/90">
+                Software Engineering Intern @ Wingify (VWO) <span className="text-[var(--foreground)]/45">•</span> Lead Developer Intern @ EzLearn
               </p>
             </div>
-            <p className="mt-6 text-base md:text-[17px] leading-relaxed text-[var(--muted)]">
+            <p className="mt-5 max-w-2xl text-base md:text-lg leading-relaxed text-[var(--muted)]">
               From EdTech platforms to SaaS products, I've helped build and ship software in fast-paced product environments. Drawn to system design, reliability, and the engineering decisions that shape products at scale.
             </p>
-            <div className="mt-7 flex w-full flex-wrap justify-start items-start gap-2.5">
-              {heroLinks.map((link, index) => (
+            <div className="mt-8 flex w-full flex-wrap justify-start items-start gap-2.5">
+              {heroLinks.map((link) => (
                 <a
                   key={link.label}
                   href={link.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`group inline-flex min-h-0 min-w-0 items-center gap-2.5 rounded-lg py-2.5 text-sm font-medium text-[var(--foreground)]/80 transition hover:text-[var(--foreground)] ${
-                    index === 0 ? "pl-0 pr-4" : "px-4"
-                  }`}
+                  className="group inline-flex min-h-0 min-w-0 items-center gap-2.5 rounded-full border border-black/10 bg-white/70 px-4 py-2.5 text-sm font-medium text-[var(--foreground)]/80 shadow-[0_1px_0_rgba(0,0,0,0.06)] transition hover:border-black/15 hover:bg-white/90 hover:text-[var(--foreground)] dark:border-white/20 dark:bg-white/[0.06] dark:hover:border-white/30 dark:hover:bg-white/[0.1]"
                 >
                   <span className="text-[var(--foreground)]/55 transition group-hover:text-[var(--foreground)]/80">
                     <HeroLinkIcon type={link.icon} />
@@ -477,19 +458,19 @@ export default function Home() {
                 </a>
               ))}
             </div>
-          </div>
-          <div className="shrink-0 w-full max-w-[320px] sm:max-w-[340px] mx-auto md:mx-0 md:w-[360px] md:pt-1">
-            <div className="overflow-hidden rounded-lg border border-black/10 dark:border-white/15">
+          </ScrollReveal>
+          <ScrollReveal delay={100} className="shrink-0 w-full max-w-[200px] sm:max-w-[260px] mx-auto md:mx-0 md:w-[280px] lg:w-[300px] xl:w-[320px]">
+            <div className="overflow-hidden rounded-2xl border border-black/10 bg-white/70 p-1 shadow-[0_10px_30px_rgba(0,0,0,0.08)] dark:border-white/15 dark:bg-white/[0.05] dark:shadow-[0_10px_30px_rgba(0,0,0,0.35)]">
               <Image
                 src="/WhatsApp Image 2025-08-14 at 15.10.00.jpeg"
                 alt="Khushi Gusain - Portfolio Hero Image"
-                width={360}
-                height={348}
+                width={320}
+                height={360}
                 priority
-                className="w-full h-[300px] sm:h-[318px] md:h-[348px] object-cover object-[center_18%] block"
+                className="w-full h-[255px] sm:h-[285px] md:h-[320px] lg:h-[338px] object-cover object-[center_18%] block rounded-[0.85rem]"
               />
             </div>
-          </div>
+          </ScrollReveal>
         </div>
       </section>
 
@@ -503,8 +484,10 @@ export default function Home() {
 
       {/* Timeline - Vertical Layout */}
       <section id="experience" className="mx-auto max-w-6xl px-6 pt-16 pb-8">
-        <h2 className="font-display text-3xl font-bold">Timeline</h2>
-        <p className="text-[var(--muted)] mt-1">My professional and educational journey.</p>
+        <ScrollReveal>
+          <h2 className="font-display text-3xl font-bold">Timeline</h2>
+          <p className="text-[var(--muted)] mt-1">My professional and educational journey.</p>
+        </ScrollReveal>
         
         <div ref={timelineContainerRef} className="relative mt-10">
           {/* Desktop Vertical Line - centered */}
@@ -551,9 +534,7 @@ export default function Home() {
                 >
                 {/* Desktop Timeline Dot - centered */}
                 <div
-                  className={`hidden md:block absolute left-1/2 transform -translate-x-1/2 w-4 h-4 rounded-full z-10 transition-transform duration-300 ${
-                    revealed[index] ? 'scale-100' : 'scale-75'
-                  }`}
+                  className="hidden md:block absolute left-1/2 transform -translate-x-1/2 w-4 h-4 rounded-full z-10"
                   style={{
                     background: activeDots[index]
                       ? isDarkMode 
@@ -575,9 +556,7 @@ export default function Home() {
                 
                 {/* Mobile Timeline Dot - left aligned */}
                 <div
-                  className={`block md:hidden absolute left-6 transform -translate-x-1/2 w-3 h-3 rounded-full z-10 transition-transform duration-300 ${
-                    revealed[index] ? 'scale-100' : 'scale-75'
-                  }`}
+                  className="block md:hidden absolute left-6 transform -translate-x-1/2 w-3 h-3 rounded-full z-10"
                   style={{
                     background: activeDots[index]
                       ? isDarkMode 
@@ -598,7 +577,7 @@ export default function Home() {
                 />
                 
                 {/* Card Container */}
-                <div className={`w-full md:w-1/2 ${
+                <ScrollReveal className={`w-full md:w-1/2 ${
                   'pl-16 md:pl-0'
                 } ${
                   isEven ? 'md:pr-12 md:mr-auto' : 'md:pl-12 md:ml-auto'
@@ -606,14 +585,11 @@ export default function Home() {
                   <div
                     className={`relative ${item.id === 't_open' ? 'overflow-visible' : 'overflow-hidden'} rounded-2xl border-2 bg-white p-4 md:p-6 flex flex-col gap-3 w-full md:w-80 lg:w-96 xl:w-[28rem] ${
                       isEven ? 'md:ml-auto' : 'md:mr-auto'
-                    } transform-gpu transition duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform ${
-                      revealed[index] ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-6 scale-[0.98]'
                     } ${
                       isDarkMode 
                         ? 'border-white/20 bg-white/5 backdrop-blur-sm shadow-[0_4px_0_0_rgba(255,255,255,0.1)]' 
                         : 'border-black/20 bg-white shadow-[0_6px_0_0_rgba(0,0,0,0.2)]'
                     }`}
-                    style={{ transitionDelay: `${Math.min(index * 70, 350)}ms` }}
                   >
                     {/* Type-colored angled overlay - only in light mode */}
                     <div
@@ -679,7 +655,7 @@ export default function Home() {
                       ) : null}
                     </div>
                   </div>
-                </div>
+                </ScrollReveal>
               </div>
             );
           })}
@@ -688,11 +664,14 @@ export default function Home() {
 
       {/* Technical Knowledge */}
       <section id="skills" className="mx-auto max-w-6xl px-6 pt-8 pb-16">
-        <h2 className="font-display text-3xl font-bold">Technical Knowledge</h2>
-        <p className="text-[var(--muted)] mt-1">Key skills across backend, databases, cloud/devops & frontend.</p>
-        <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {skillCategories.map((category) => (
-            <CardShell key={category.title}>
+        <ScrollReveal>
+          <h2 className="font-display text-3xl font-bold">Technical Knowledge</h2>
+          <p className="text-[var(--muted)] mt-1">Key skills across backend, databases, cloud/devops & frontend.</p>
+        </ScrollReveal>
+        <ScrollRevealGroup className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" staggerMs={90}>
+          {skillCategories.map((category, index) => (
+            <ScrollRevealItem key={category.title} index={index}>
+              <CardShell>
               <div className="p-6 h-full flex flex-col">
                 <div className={`pb-4 border-b ${isDarkMode ? "border-white/20" : "border-black/15"}`}>
                   <h3 className={`text-center text-2xl font-semibold ${isDarkMode ? "text-white" : "text-black"}`}>
@@ -706,15 +685,18 @@ export default function Home() {
                 </ul>
               </div>
             </CardShell>
+            </ScrollRevealItem>
           ))}
-        </div>
+        </ScrollRevealGroup>
       </section>
 
       {/* Tech Stack (Marquee) */}
       <section id="projects" className="mx-auto max-w-6xl px-6 py-16 relative">
-        <h2 className="font-display text-3xl font-bold">Tech Stack</h2>
-        <p className="text-[var(--muted)] mt-1">Tools and technologies I use most.</p>
-        <div className={`relative mt-8 overflow-hidden rounded-2xl border-2 bg-white ${
+        <ScrollReveal>
+          <h2 className="font-display text-3xl font-bold">Tech Stack</h2>
+          <p className="text-[var(--muted)] mt-1">Tools and technologies I use most.</p>
+        </ScrollReveal>
+        <ScrollReveal delay={100} className={`relative mt-8 overflow-hidden rounded-2xl border-2 bg-white ${
           isDarkMode 
             ? 'border-white/20 bg-white/5 backdrop-blur-sm shadow-[0_4px_0_0_rgba(255,255,255,0.1)]' 
             : 'border-black/20 bg-white shadow-[0_6px_0_0_rgba(0,0,0,0.2)]'
@@ -764,18 +746,21 @@ export default function Home() {
               ))}
             </div>
           </div>
-        </div>
+        </ScrollReveal>
       </section>
 
       {/* Connect */}
       <section id="connect" className="mx-auto max-w-6xl px-6 pb-24 relative">
         <div className="aurora-connect" />
-        <h2 className="font-display text-3xl font-bold">Let&apos;s Connect</h2>
-        <p className="mt-2 text-[var(--muted)] text-lg">The best opportunities often start with a simple conversation. Let's connect.</p>
+        <ScrollReveal>
+          <h2 className="font-display text-3xl font-bold">Let&apos;s Connect</h2>
+          <p className="mt-2 text-[var(--muted)] text-lg">The best opportunities often start with a simple conversation. Let's connect.</p>
+        </ScrollReveal>
         
         {/* Contact Cards Grid */}
-        <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <ScrollRevealGroup className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" staggerMs={90}>
           {/* Resume Card */}
+          <ScrollRevealItem index={0}>
           <div className={`group p-6 rounded-2xl border-2 transition-all duration-300 hover:scale-105 ${
             isDarkMode 
               ? 'border-white/20 bg-white/5 backdrop-blur-sm' 
@@ -796,8 +781,10 @@ export default function Home() {
               Download Resume
             </a>
           </div>
+          </ScrollRevealItem>
 
           {/* LinkedIn Card */}
+          <ScrollRevealItem index={1}>
           <div className={`group p-6 rounded-2xl border-2 transition-all duration-300 hover:scale-105 ${
             isDarkMode 
               ? 'border-white/20 bg-white/5 backdrop-blur-sm' 
@@ -818,8 +805,10 @@ export default function Home() {
               Connect on LinkedIn
             </a>
           </div>
+          </ScrollRevealItem>
 
           {/* GitHub Card */}
+          <ScrollRevealItem index={2}>
           <div className={`group p-6 rounded-2xl border-2 transition-all duration-300 hover:scale-105 ${
             isDarkMode 
               ? 'border-white/20 bg-white/5 backdrop-blur-sm' 
@@ -840,12 +829,13 @@ export default function Home() {
               View GitHub
             </a>
           </div>
-        </div>
+          </ScrollRevealItem>
+        </ScrollRevealGroup>
 
 
 
         {/* Contact Details */}
-        <div className="mt-16 text-center">
+        <ScrollReveal className="mt-16 text-center">
           <h3 className="font-display text-2xl font-bold mb-6">Contact Details</h3>
           <div className={`inline-flex flex-col sm:flex-row items-center gap-6 p-6 rounded-2xl border-2 ${
             isDarkMode 
@@ -878,8 +868,9 @@ export default function Home() {
               <span className="text-[var(--muted)]">8076592250</span>
             </div>
           </div>
-        </div>
+        </ScrollReveal>
       </section>
+      </div>
     </div>
   );
 }
@@ -988,14 +979,17 @@ function ProjectsHyperfolio() {
   return (
       <section id="projects" className="mx-auto max-w-6xl px-6 pt-4 md:pt-6 pb-2 md:pb-3">
        <div className="mx-auto max-w-6xl px-4 md:px-6">
-         <h2 className="font-display text-3xl text-center font-bold">Recent Projects</h2>
+         <ScrollReveal>
+           <h2 className="font-display text-3xl text-center font-bold">Recent Projects</h2>
+         </ScrollReveal>
          
          {/* Project Type Switch */}
+         <ScrollReveal delay={80}>
          <div className="flex items-center justify-center mt-4 mb-6">
-           <span className="text-sm font-medium text-[var(--foreground)] mr-3">Industry Work</span>
+           <span className="text-sm font-medium text-[var(--foreground)] mr-3">For users</span>
            <button
              onClick={() => setProjectType(projectType === "industry" ? "self" : "industry")}
-             className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 ${
+             className={`relative cursor-pointer inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 ${
                projectType === "self" ? "bg-[var(--accent-blue)]" : "bg-[var(--accent-lavender)]"
              } ${
                isDarkMode 
@@ -1009,82 +1003,83 @@ function ProjectsHyperfolio() {
                }`}
              />
            </button>
-           <span className="text-sm font-medium text-[var(--foreground)] ml-3">Self Projects</span>
+           <span className="text-sm font-medium text-[var(--foreground)] ml-3">For learning</span>
          </div>
+         </ScrollReveal>
        </div>
 
                {/* Conditional Project Grids */}
         {projectType === "industry" ? (
           <div className="mt-2">
             {/* Mobile: Stacked layout */}
-            <div className="block md:hidden space-y-6 px-2">
+            <ScrollRevealGroup className="block md:hidden space-y-6 px-2" staggerMs={100}>
               {rightVertical && (
-                <div className="h-96">
+                <ScrollRevealItem index={0} className="h-96">
                   <ProjectTall p={rightVertical} hovered={hovered} setHovered={setHovered} />
-                </div>
+                </ScrollRevealItem>
               )}
               {twoLeft[0] && (
-                <div className="h-64">
+                <ScrollRevealItem index={1} className="h-64">
                   <ProjectWide p={twoLeft[0]} hovered={hovered} setHovered={setHovered} />
-                </div>
+                </ScrollRevealItem>
               )}
               {twoLeft[1] && (
-                <div className="h-64">
+                <ScrollRevealItem index={2} className="h-64">
                   <ProjectWide p={twoLeft[1]} hovered={hovered} setHovered={setHovered} />
-                </div>
+                </ScrollRevealItem>
               )}
-            </div>
+            </ScrollRevealGroup>
             
             {/* Desktop: Grid layout */}
-            <div className="hidden md:grid h-screen grid-cols-4 grid-rows-6 gap-3 px-3">
+            <ScrollRevealGroup className="hidden md:grid h-screen grid-cols-4 grid-rows-6 gap-3 px-3" staggerMs={100}>
               {/* Right tall card */}
-              <div className="col-start-3 row-start-1 col-span-2 row-span-6">
+              <ScrollRevealItem index={0} className="col-start-3 row-start-1 col-span-2 row-span-6 h-full">
                 <ProjectTall p={rightVertical} hovered={hovered} setHovered={setHovered} />
-              </div>
+              </ScrollRevealItem>
               {/* Left top horizontal */}
               {twoLeft[0] && (
-                <div className="col-start-1 row-start-1 col-span-2 row-span-3">
+                <ScrollRevealItem index={1} className="col-start-1 row-start-1 col-span-2 row-span-3 h-full">
                   <ProjectWide p={twoLeft[0]} hovered={hovered} setHovered={setHovered} />
-                </div>
+                </ScrollRevealItem>
               )}
               {/* Left bottom horizontal */}
               {twoLeft[1] && (
-                <div className="col-start-1 row-start-4 col-span-2 row-span-3">
+                <ScrollRevealItem index={2} className="col-start-1 row-start-4 col-span-2 row-span-3 h-full">
                   <ProjectWide p={twoLeft[1]} hovered={hovered} setHovered={setHovered} />
-                </div>
+                </ScrollRevealItem>
               )}
-            </div>
+            </ScrollRevealGroup>
           </div>
                                 ) : (
           <div className="mt-2">
             {/* Mobile: Stacked layout */}
-            <div className="block md:hidden space-y-6 px-2">
-              <div className="h-80">
+            <ScrollRevealGroup className="block md:hidden space-y-6 px-2" staggerMs={100}>
+              <ScrollRevealItem index={0} className="h-80">
                 <SelfProjectCard project={selfProjects[0]} />
-              </div>
-              <div className="h-80">
+              </ScrollRevealItem>
+              <ScrollRevealItem index={1} className="h-80">
                 <SelfProjectCard project={selfProjects[1]} />
-              </div>
-              <div className="h-80">
+              </ScrollRevealItem>
+              <ScrollRevealItem index={2} className="h-80">
                 <SelfProjectCard project={selfProjects[2]} />
-              </div>
-            </div>
+              </ScrollRevealItem>
+            </ScrollRevealGroup>
             
             {/* Desktop: Grid layout */}
-            <div className="hidden md:grid h-screen grid-cols-2 grid-rows-2 gap-3 px-3">
-              {/* Top Left: Blog Posts Generator */}
-              <div className="col-start-1 row-start-1 col-span-1 row-span-1">
+            <ScrollRevealGroup className="hidden md:grid h-screen grid-cols-2 grid-rows-2 gap-3 px-3" staggerMs={100}>
+              {/* Top Left: TaskHive */}
+              <ScrollRevealItem index={0} className="col-start-1 row-start-1 col-span-1 row-span-1 h-full">
                 <SelfProjectCard project={selfProjects[0]} />
-              </div>
-              {/* Top Right: TaskHive */}
-              <div className="col-start-2 row-start-1 col-span-1 row-span-1">
+              </ScrollRevealItem>
+              {/* Top Right: Apex Store Intelligence */}
+              <ScrollRevealItem index={1} className="col-start-2 row-start-1 col-span-1 row-span-1 h-full">
                 <SelfProjectCard project={selfProjects[1]} />
-              </div>
+              </ScrollRevealItem>
               {/* Bottom Left: DSAverse */}
-              <div className="col-start-1 row-start-2 col-span-1 row-span-1">
+              <ScrollRevealItem index={2} className="col-start-1 row-start-2 col-span-1 row-span-1 h-full">
                 <SelfProjectCard project={selfProjects[2]} />
-              </div>
-            </div>
+              </ScrollRevealItem>
+            </ScrollRevealGroup>
           </div>
          )}
     </section>
@@ -1141,8 +1136,8 @@ function SelfProjectCard({ project }: { project: Project }) {
           style={{ backgroundColor: project.color }}
         />
         
-        {/* Project Image Carousel - expanded to show more of the image */}
-        <div className="relative flex-1 mt-6 mx-6 mb-0 z-10">
+        {/* Project Image Carousel */}
+        <div className="relative h-[54%] mt-4 mx-4 md:h-[56%] md:mt-5 md:mx-5 z-10">
           <div className="w-full h-full rounded-lg overflow-hidden">
             {project.carouselImages && project.carouselImages.length > 1 ? (
               // Carousel with multiple images
@@ -1196,8 +1191,8 @@ function SelfProjectCard({ project }: { project: Project }) {
           </div>
         )}
         
-        {/* Footer overlay with details - more compact layout */}
-        <div className={`relative z-10 backdrop-blur border-t px-3 py-2 ${
+        {/* Footer overlay with details */}
+        <div className={`relative z-10 mt-3 md:mt-4 backdrop-blur border-t px-3 py-2 md:px-4 md:py-3 ${
           isDarkMode 
             ? 'bg-black/80 border-white/20 shadow-[0_-2px_0_0_rgba(255,255,255,0.05)]' 
             : 'bg-white/95 border-black/10 shadow-[0_-2px_0_0_rgba(0,0,0,0.08)]'
@@ -1205,20 +1200,29 @@ function SelfProjectCard({ project }: { project: Project }) {
           <div className="flex flex-wrap items-center gap-2 text-xs text-[var(--muted)]">
             <span className={`rounded-full px-2 py-0.5 ${
               isDarkMode ? 'bg-white/10' : 'bg-black/5'
-            }`}>2024</span>
-            <span className={`rounded-full px-2 py-0.5 capitalize ${
-              isDarkMode ? 'bg-white/10' : 'bg-black/5'
-            }`}>{project.type}</span>
-            <span className={`rounded-full px-2 py-0.5 ${
-              isDarkMode ? 'bg-white/10' : 'bg-black/5'
-            }`}>Personal</span>
+            }`}>{project.year ?? "2024"}</span>
+            {project.id !== "sp2" ? (
+              <span className={`rounded-full px-2 py-0.5 capitalize ${
+                isDarkMode ? 'bg-white/10' : 'bg-black/5'
+              }`}>{project.type}</span>
+            ) : null}
+            {(project.badges ?? ["Personal"]).map((badge) => (
+              <span
+                key={`${project.id}-${badge}`}
+                className={`rounded-full px-2 py-0.5 ${
+                  isDarkMode ? 'bg-white/10' : 'bg-black/5'
+                }`}
+              >
+                {badge}
+              </span>
+            ))}
           </div>
-          <div className="mt-1 flex items-center justify-between gap-3">
-            <div className="flex-1">
-              <h3 className="text-base md:text-lg font-semibold line-clamp-1">{project.title}</h3>
-              <p className="text-[var(--muted)] text-xs line-clamp-1 mt-0.5">{project.summary}</p>
+          <div className="mt-1 flex items-start justify-between gap-3">
+            <div className="flex-1 min-h-[4rem]">
+              <h3 className="text-lg md:text-xl font-semibold line-clamp-2">{project.title}</h3>
+              <p className="text-[var(--muted)] text-xs md:text-sm line-clamp-3 mt-1">{project.summary}</p>
             </div>
-            <div className="shrink-0 flex gap-1">
+            <div className="shrink-0 mt-8 flex gap-1">
               {project.github && (
                 <a className={`btn btn-secondary h-7 px-2 text-xs ${
                   isDarkMode ? '!bg-white/10' : '!bg-white'
@@ -1360,24 +1364,33 @@ function ProjectWide({
           <div className="flex flex-wrap items-center gap-2 text-xs text-[var(--muted)]">
             <span className={`rounded-full px-3 py-1 ${
               isDarkMode ? 'bg-white/10' : 'bg-black/5'
-            }`}>{p.id === "p3" ? "2025" : "2024"}</span>
+            }`}>{p.year ?? "2024"}</span>
             <span className={`rounded-full px-3 py-1 capitalize ${
               isDarkMode ? 'bg-white/10' : 'bg-black/5'
             }`}>{p.type}</span>
-            <span className={`rounded-full px-3 py-1 ${
-              isDarkMode ? 'bg-white/10' : 'bg-black/5'
-            }`}>{p.id === "p1" ? "Edtech" : "SaaS"}</span>
+            {(p.badges ?? []).map((badge) => (
+              <span
+                key={`${p.id}-${badge}`}
+                className={`rounded-full px-3 py-1 ${
+                  isDarkMode ? 'bg-white/10' : 'bg-black/5'
+                }`}
+              >
+                {badge}
+              </span>
+            ))}
           </div>
           <div className="mt-1 flex items-start justify-between gap-3">
             <div className="flex-1 min-h-[4rem]">
               <h3 className="text-lg md:text-xl font-semibold line-clamp-2">{p.title}</h3>
               <p className="text-[var(--muted)] text-xs md:text-sm line-clamp-3 mt-1">{p.summary}</p>
             </div>
-            <div className="shrink-0 mt-8">
-              <a className={`btn btn-secondary h-8 px-3 ${
-                isDarkMode ? '!bg-white/10' : '!bg-white'
-              }`} href={p.id === "p1" ? "https://ezlearn.in" : p.id === "p2" ? "https://github.com/KhushiGusain/CLIStock" : p.id === "p3" ? "https://catlysis.com" : "#"} target="_blank" rel="noopener noreferrer">Visit</a>
-            </div>
+            {p.website ? (
+              <div className="shrink-0 mt-8">
+                <a className={`btn btn-secondary h-8 px-3 ${
+                  isDarkMode ? '!bg-white/10' : '!bg-white'
+                }`} href={p.website} target="_blank" rel="noopener noreferrer">Visit</a>
+              </div>
+            ) : null}
           </div>
         </div>
       </div>
