@@ -33,7 +33,7 @@ type Project = {
   id: string;
   title: string;
   summary: string;
-  type: "web" | "app" | "design";
+  type: "web" | "app" | "design" | "AI Platform";
   color: string; // bg color
   videoSrc?: string;
   imageSrc?: string;
