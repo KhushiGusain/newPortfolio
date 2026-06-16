@@ -440,7 +440,7 @@ export default function Home() {
               </p>
             </div>
             <p className="mt-5 max-w-2xl text-base md:text-lg leading-relaxed text-[var(--muted)]">
-              From EdTech platforms to SaaS products, I've helped build and ship software in fast-paced product environments. Drawn to system design, reliability, and the engineering decisions that shape products at scale.
+              From EdTech platforms to SaaS products, I&apos;ve helped build and ship software in fast-paced product environments. Drawn to system design, reliability, and the engineering decisions that shape products at scale.
             </p>
             <div className="mt-8 flex w-full flex-wrap justify-start items-start gap-2.5">
               {heroLinks.map((link) => (
@@ -754,7 +754,7 @@ export default function Home() {
         <div className="aurora-connect" />
         <ScrollReveal>
           <h2 className="font-display text-3xl font-bold">Let&apos;s Connect</h2>
-          <p className="mt-2 text-[var(--muted)] text-lg">The best opportunities often start with a simple conversation. Let's connect.</p>
+          <p className="mt-2 text-[var(--muted)] text-lg">The best opportunities often start with a simple conversation. Let&apos;s connect.</p>
         </ScrollReveal>
         
         {/* Contact Cards Grid */}
