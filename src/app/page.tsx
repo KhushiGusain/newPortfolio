@@ -3,7 +3,7 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import ThemeToggle from "./components/ThemeToggle";
 import { useTheme } from "./contexts/ThemeContext";
-import { categoryFont, logoFont, skillFont, taglineFont } from "./fonts";
+import { logoFont, nameFont } from "./fonts";
 
 type TimelineItem = {
   id: string;
@@ -449,10 +449,10 @@ export default function Home() {
         <div className="flex flex-col md:flex-row md:items-start gap-10 md:gap-11 lg:gap-12">
           <div className="flex-1 min-w-0 md:max-w-xl lg:max-w-[34rem] text-left">
             <div className="space-y-2">
-              <h1 className={`${categoryFont.className} text-4xl md:text-6xl font-semibold tracking-tight leading-[1.1]`}>
+              <h1 className={`${nameFont.className} text-4xl md:text-6xl font-semibold tracking-tight leading-[1.1]`}>
                 Khushi Gusain
               </h1>
-              <p className={`${taglineFont.className} text-sm md:text-[15px] tracking-wide text-lime-700 dark:text-lime-700`}>
+              <p className="text-sm md:text-[15px] tracking-wide text-lime-700 dark:text-lime-700">
                 Turning ideas into software.
               </p>
             </div>
@@ -640,7 +640,7 @@ export default function Home() {
                     <div className={`flex items-center justify-between text-left ${
                       isEven ? 'md:text-right' : 'md:text-left'
                     }`}>
-                      <h3 className={`${categoryFont.className} text-xl font-semibold ${isDarkMode ? "text-white" : "text-black"}`}>
+                      <h3 className={`text-xl font-semibold ${isDarkMode ? "text-white" : "text-black"}`}>
                         {item.org}
                       </h3>
                       {item.id !== "t_open" ? (
@@ -695,7 +695,7 @@ export default function Home() {
             <CardShell key={category.title}>
               <div className="p-6 h-full flex flex-col">
                 <div className={`pb-4 border-b ${isDarkMode ? "border-white/20" : "border-black/15"}`}>
-                  <h3 className={`${categoryFont.className} text-center text-2xl italic ${isDarkMode ? "text-white" : "text-black"}`}>
+                  <h3 className={`text-center text-2xl font-semibold ${isDarkMode ? "text-white" : "text-black"}`}>
                     {category.title}
                   </h3>
                 </div>
@@ -890,7 +890,7 @@ function SkillRow({ label, icon }: { label: string; icon: string }) {
       <div className="relative h-6 w-6 shrink-0 rounded-md border border-black/8 dark:border-white/10 bg-white dark:bg-white/[0.04] p-1">
         <Image src={icon} alt="" fill className="object-contain" unoptimized aria-hidden />
       </div>
-      <span className={`${skillFont.className} font-medium tracking-tight text-[var(--foreground)]/88`}>{label}</span>
+      <span className="font-medium tracking-tight text-[var(--foreground)]/88">{label}</span>
     </li>
   );
 }

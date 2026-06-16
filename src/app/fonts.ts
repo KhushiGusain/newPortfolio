@@ -1,8 +1,9 @@
-import { Fraunces, Inter, Poppins, Sora, Space_Mono, Syne } from "next/font/google";
+import { Fraunces, Poppins, Sora, Syne } from "next/font/google";
 
-export const bodyFont = Inter({
+export const bodyFont = Poppins({
   variable: "--font-body",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
 });
 
 export const displayFont = Sora({
@@ -13,30 +14,12 @@ export const displayFont = Sora({
 export const nameFont = Fraunces({
   variable: "--font-name",
   subsets: ["latin"],
-  weight: ["700"],
-});
-
-export const taglineFont = Space_Mono({
-  variable: "--font-tagline",
-  subsets: ["latin"],
-  weight: ["400"],
+  weight: ["600"],
+  style: ["italic"],
 });
 
 export const logoFont = Syne({
   variable: "--font-logo",
   subsets: ["latin"],
   weight: ["700"],
-});
-
-export const categoryFont = Fraunces({
-  variable: "--font-category",
-  subsets: ["latin"],
-  weight: ["600"],
-  style: ["italic"],
-});
-
-export const skillFont = Poppins({
-  variable: "--font-skill",
-  subsets: ["latin"],
-  weight: ["400", "500"],
 });
